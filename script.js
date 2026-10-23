@@ -11,6 +11,8 @@ const state = {
   stone: 12,
   energy: 10,
   rep: 0,
+  wildFood: 0,
+  weaponLevel: 0,
   marketLevel: 1,
   bankLevel: 1,
   stockValue: 12,
@@ -53,10 +55,13 @@ const farmGrid = document.getElementById("farmGrid");
 const goalsList = document.getElementById("goalsList");
 const marketList = document.getElementById("marketList");
 
+const bannerText = document.getElementById("bannerText");
+
 function log(msg) {
   const item = document.createElement("div");
   item.textContent = msg;
   logPanel.prepend(item);
+  bannerText.textContent = msg;
 }
 
 function updateStats() {
@@ -66,6 +71,8 @@ function updateStats() {
   document.getElementById("stone").textContent = state.stone;
   document.getElementById("energy").textContent = state.energy;
   document.getElementById("rep").textContent = state.rep;
+  document.getElementById("weaponName").textContent = currentWeaponName();
+  updateForge();
 
   document.getElementById("ovenCount").textContent = state.bakeryOvens;
   document.getElementById("displayCount").textContent = state.bakeryDisplays;
@@ -158,6 +165,10 @@ function renderInventory() {
     ["Eggs", state.inventory.eggs],
     ["Magic Dust", state.inventory.magicDust],
     ["Moonwell", state.moonwellLevel],
+    ["Wild Food", state.wildFood],
+    ["Wood", state.wood],
+    ["Stone", state.stone],
+    ["Weapon", currentWeaponName()],
   ];
 
   magicItems.forEach(([label, value]) => {
@@ -271,6 +282,103 @@ function setMarketPrices() {
       val.innerHTML = `Price: ${Math.max(8, next)} coins`;
     }
   });
+}
+
+const WEAPONS = [
+  "Bare hands",
+  "Wooden Club",
+  "Stone Axe",
+  "Stone Sword",
+  "Star Blade",
+];
+
+function currentWeaponName() {
+  return WEAPONS[state.weaponLevel];
+}
+
+function forgeCost() {
+  const tier = state.weaponLevel + 1;
+  return { wood: 10 * tier, stone: 5 * tier };
+}
+
+function updateForge() {
+  const next = WEAPONS[state.weaponLevel + 1];
+  const nameEl = document.getElementById("forgeNext");
+  const costEl = document.getElementById("forgeCost");
+  const btn = document.getElementById("forgeBtn");
+  if (!next) {
+    nameEl.textContent = "Fully upgraded";
+    costEl.textContent = "";
+    btn.disabled = true;
+    return;
+  }
+  const cost = forgeCost();
+  nameEl.textContent = next;
+  costEl.textContent = `${cost.wood} 🪵 + ${cost.stone} 🪨`;
+  btn.disabled = false;
+}
+
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+function forage() {
+  if (state.energy < 1) {
+    log("Too tired to forage. Eat some food or press Next Day.");
+    return;
+  }
+  state.energy -= 1;
+  const found = randInt(1, 3);
+  state.wildFood += found;
+  log(`Foraged ${found} food from the wilderness.`);
+  updateStats();
+  renderInventory();
+}
+
+function gatherMaterials() {
+  if (state.energy < 1) {
+    log("Too tired to gather. Eat some food or press Next Day.");
+    return;
+  }
+  state.energy -= 1;
+  const wood = randInt(1, 3);
+  const stone = randInt(0, 2);
+  state.wood += wood;
+  state.stone += stone;
+  log(`Gathered ${wood} wood and ${stone} stone.`);
+  updateStats();
+  renderInventory();
+}
+
+function eatFood() {
+  if (state.wildFood < 1) {
+    log("No food to eat. Try foraging.");
+    return;
+  }
+  if (state.energy >= 12) {
+    log("Energy is already full.");
+    return;
+  }
+  state.wildFood -= 1;
+  state.energy = Math.min(12, state.energy + 2);
+  log("Ate some food. +2 energy.");
+  updateStats();
+  renderInventory();
+}
+
+function forgeWeapon() {
+  if (!WEAPONS[state.weaponLevel + 1]) return;
+  const cost = forgeCost();
+  if (state.wood < cost.wood || state.stone < cost.stone) {
+    log(`Need ${cost.wood} wood and ${cost.stone} stone to craft that.`);
+    return;
+  }
+  state.wood -= cost.wood;
+  state.stone -= cost.stone;
+  state.weaponLevel += 1;
+  log(`Crafted a ${currentWeaponName()}!`);
+  updateStats();
+  renderInventory();
 }
 
 function haveSeed(seedType) {
@@ -573,6 +681,10 @@ function buyUpgrade(kind) {
 }
 
 function bindButtons() {
+  document.getElementById("forageBtn").addEventListener("click", forage);
+  document.getElementById("gatherBtn").addEventListener("click", gatherMaterials);
+  document.getElementById("eatBtn").addEventListener("click", eatFood);
+  document.getElementById("forgeBtn").addEventListener("click", forgeWeapon);
   document.getElementById("nextDayBtn").addEventListener("click", nextDay);
   document.getElementById("waterBtn").addEventListener("click", waterAll);
   document.getElementById("harvestBtn").addEventListener("click", harvestReady);
@@ -628,16 +740,81 @@ function bindButtons() {
   });
 }
 
+const HELP_HTML = `
+  <ul>
+    <li>🌱 <b>Actions:</b> tap a plot to plant or harvest, water your crops, then press Next Day.</li>
+    <li>🎒 <b>Inventory:</b> see what you've harvested and baked.</li>
+    <li>🍞 <b>Craft:</b> bake bread and run your restaurant.</li>
+    <li>🗺️ <b>Map:</b> track village goals and buy seeds and supplies.</li>
+    <li>✨ <b>Camp:</b> magic upgrades, bank and stock market.</li>
+  </ul>`;
+
+function showModal(title, bodyHtml) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").innerHTML = bodyHtml;
+  document.getElementById("modal").hidden = false;
+}
+
+function bindShell() {
+  const startScreen = document.getElementById("startScreen");
+  const gameScreen = document.getElementById("gameScreen");
+
+  document.getElementById("playBtn").addEventListener("click", () => {
+    startScreen.hidden = true;
+    gameScreen.hidden = false;
+  });
+
+  document
+    .getElementById("startHelpBtn")
+    .addEventListener("click", () => showModal("How to Play", HELP_HTML));
+  document
+    .getElementById("helpBtn")
+    .addEventListener("click", () => showModal("How to Play", HELP_HTML));
+
+  document.getElementById("menuBtn").addEventListener("click", () => {
+    showModal(
+      "Menu",
+      "<p>Saving and settings are coming soon.</p>" +
+        '<button id="quitBtn">Back to Title</button>',
+    );
+    document.getElementById("quitBtn").addEventListener("click", () => {
+      document.getElementById("modal").hidden = true;
+      gameScreen.hidden = true;
+      startScreen.hidden = false;
+    });
+  });
+
+  document.getElementById("modalClose").addEventListener("click", () => {
+    document.getElementById("modal").hidden = true;
+  });
+
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".tab-btn")
+        .forEach((b) => b.classList.toggle("active", b === btn));
+      document
+        .querySelectorAll(".tab")
+        .forEach((t) =>
+          t.classList.toggle("active", t.id === `tab-${btn.dataset.tab}`),
+        );
+      document.querySelector(".content").scrollTop = 0;
+    });
+  });
+}
+
 function init() {
   log(
     "Welcome to Stardust Homestead! Your magical bakery and restaurant dream begins.",
   );
+  bannerText.textContent = "⬇ Forage for food or Gather materials below";
   updateStats();
   renderFarm();
   renderInventory();
   renderGoals();
   renderMarket();
   bindButtons();
+  bindShell();
 }
 
 init();
