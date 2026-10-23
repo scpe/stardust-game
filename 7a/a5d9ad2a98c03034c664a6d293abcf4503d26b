@@ -1,0 +1,23 @@
+index.html
+  s_4c2fc2c9212616::t_2fccc257923d5a 1-210
+script.js
+  s_4c2fc2c9212616::t_e454ae8c286b45 1-643
+style.css
+  s_4c2fc2c9212616::t_1a67152054b34f 1-268
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7aa5d9ad2a98c03034c664a6d293abcf4503d26b",
+  "prompts": {},
+  "sessions": {
+    "s_4c2fc2c9212616": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89c0ebf6-6623-4922-9a7f-44a78b1ad5bc",
+        "model": "unknown"
+      },
+      "human_author": "scott pederson <scpe@users.noreply.github.com>"
+    }
+  }
+}
