@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stardust Homestead</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="topbar">
+        <div class="brand">
+          <h2>Stardust Homestead</h2>
+        </div>
+        <div class="stats">
+          <div class="stat">Day: <span id="day">1</span></div>
+          <div class="stat">Coins: <span id="coins">120</span></div>
+          <div class="stat">Wood: <span id="wood">20</span></div>
+          <div class="stat">Stone: <span id="stone">12</span></div>
+          <div class="stat">Energy: <span id="energy">10</span></div>
+          <div class="stat">Rep: <span id="rep">0</span></div>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div class="panel">
+          <h3 class="title">Farm</h3>
+          <div class="farm-grid" id="farmGrid"></div>
+          <div class="actions">
+            <button id="nextDayBtn">Next Day</button>
+            <button id="waterBtn" class="secondary">Water All</button>
+            <button id="harvestBtn" class="secondary">Harvest Ready</button>
+            <button id="sellBtn" class="danger">Sell Harvest</button>
+          </div>
+          <div class="log" id="logPanel"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="title">Bakery</h3>
+
+          <div class="small-grid">
+            <div class="card">
+              <div class="top">
+                <strong>Ovens</strong>
+                <span id="ovenCount">0</span>
+              </div>
+              <button data-role="buyOven">Buy Oven</button>
+            </div>
+            <div class="card">
+              <div class="top">
+                <strong>Display Cases</strong>
+                <span id="displayCount">0</span>
+              </div>
+              <button data-role="buyDisplay">Buy Display</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <strong>Bakery Inventory</strong>
+            <div class="inventory" id="bakeryInventory"></div>
+          </div>
+
+          <div class="actions">
+            <button class="rare" id="bakeBreadBtn">Bake Bread</button>
+            <button id="sellBakeryBtn">Sell Bakery Goods</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="title">Restaurant & Economy</h3>
+
+          <div class="small-grid">
+            <div class="card">
+              <div class="top">
+                <strong>Tables</strong>
+                <span id="tableCount">0</span>
+              </div>
+              <button data-role="buyTable">Buy Table</button>
+            </div>
+            <div class="card">
+              <div class="top">
+                <strong>Stoves</strong>
+                <span id="stoveCount">0</span>
+              </div>
+              <button data-role="buyStove">Buy Stove</button>
+            </div>
+            <div class="card">
+              <div class="top">
+                <strong>Stock Market</strong>
+                <span id="stockLevel">1</span>
+              </div>
+              <button data-role="buyStockMarket">Upgrade</button>
+            </div>
+            <div class="card">
+              <div class="top">
+                <strong>Bank</strong>
+                <span id="bankLevel">1</span>
+              </div>
+              <button data-role="buyBank">Upgrade</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <strong>Food Shelf</strong>
+            <div class="inventory" id="foodShelfInventory"></div>
+          </div>
+
+          <div class="actions">
+            <button id="serveMealsBtn">Serve Meals</button>
+            <button class="secondary" id="stockMarketTradeBtn">
+              Trade Shares
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="title">Magic & Market</h3>
+
+          <div class="small-grid">
+            <div class="card">
+              <div class="top">
+                <strong>Moonwell</strong>
+                <span id="moonwellLevel">1</span>
+              </div>
+              <button data-role="upgradeMoonwell">Upgrade</button>
+            </div>
+            <div class="card">
+              <div class="top">
+                <strong>Magic Lamps</strong>
+                <span id="lampCount">0</span>
+              </div>
+              <button data-role="buyLamp">Buy Lamp</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <strong>Magic Inventory</strong>
+            <div class="inventory" id="magicInventory"></div>
+          </div>
+
+          <div class="section">
+            <strong>Stock Market</strong>
+            <div class="market-list" id="marketList"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 class="title">Village Goals</h3>
+          <div class="goal-list" id="goalsList"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="title">Village Stores</h3>
+
+          <div class="market-list">
+            <div class="market-row">
+              <div>
+                <strong>Wheat Seed</strong><br />
+                <small>8 coins</small>
+              </div>
+              <button data-role="buySeed" data-seed="wheat">Buy</button>
+            </div>
+
+            <div class="market-row">
+              <div>
+                <strong>Carrot Seed</strong><br />
+                <small>10 coins</small>
+              </div>
+              <button data-role="buySeed" data-seed="carrot">Buy</button>
+            </div>
+
+            <div class="market-row">
+              <div>
+                <strong>Berry Seed</strong><br />
+                <small>14 coins</small>
+              </div>
+              <button data-role="buySeed" data-seed="berry">Buy</button>
+            </div>
+
+            <div class="market-row">
+              <div>
+                <strong>Flour</strong><br />
+                <small>8 coins</small>
+              </div>
+              <button data-role="buyFlour">Buy</button>
+            </div>
+
+            <div class="market-row">
+              <div>
+                <strong>Eggs</strong><br />
+                <small>12 coins</small>
+              </div>
+              <button data-role="buyEggs">Buy</button>
+            </div>
+
+            <div class="market-row">
+              <div>
+                <strong>Magic Dust</strong><br />
+                <small>20 coins</small>
+              </div>
+              <button data-role="buyMagicDust">Buy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
