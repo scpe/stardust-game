@@ -575,3 +575,187 @@ button:active {
 .modal-card li {
   margin-bottom: 6px;
 }
+
+/* ---------- VILLAGE OF ROOTS ADDITIONS ---------- */
+.start {
+  background: linear-gradient(#2f5d34 0%, #5c9a4a 55%, #e9c46a 100%);
+}
+
+.start-ico {
+  font-size: 64px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.login label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 240px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.link-btn {
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+select,
+input {
+  font: inherit;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: #2a2a2a;
+  min-width: 0;
+}
+
+.header {
+  background: #2f5d34;
+}
+
+.banner-msg {
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.chip-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 999px;
+  background: #fff;
+  border-color: var(--line);
+}
+
+.chip.sel {
+  background: #cfeec0;
+  border-color: var(--green);
+}
+
+.plot.ready {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px var(--gold);
+}
+
+.actions.one {
+  grid-template-columns: 1fr;
+}
+
+.wide {
+  width: 100%;
+}
+
+.mini {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.muted {
+  color: #6b6455;
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+
+.sub {
+  margin: 14px 0 6px;
+  font-size: 15px;
+}
+
+.row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.needs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.needs .ok {
+  color: #2f7a33;
+}
+
+.needs .no {
+  color: #b5432c;
+}
+
+.offer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.form {
+  display: grid;
+  gap: 8px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 56px 64px 1fr;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.goal-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.goal .top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.goal button {
+  margin-top: 8px;
+}
+
+.menu-btns {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}

@@ -6,252 +6,75 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#2b2a6b" />
-    <title>Stardust Homestead</title>
+    <meta name="theme-color" content="#2f5d34" />
+    <title>Village of Roots</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="phone">
       <!-- START SCREEN -->
       <section class="start" id="startScreen">
-        <div class="stars" aria-hidden="true"></div>
         <div class="start-inner">
-          <div class="start-moon" aria-hidden="true">🌙</div>
-          <h1 class="game-title">Stardust<br />Homestead</h1>
-          <p class="tagline">Grow. Bake. Serve. Sprinkle a little magic.</p>
-          <div class="start-buttons">
-            <button class="big-btn" id="playBtn">Play</button>
-            <button class="big-btn alt" id="startHelpBtn">How to Play</button>
-          </div>
+          <div class="start-ico" aria-hidden="true">🌳</div>
+          <h1 class="game-title">Village<br />of Roots</h1>
+          <p class="tagline">Farm, fish, craft and trade. Build the village together.</p>
+          <form class="login" id="loginForm" autocomplete="off">
+            <label>
+              Username
+              <input id="userInput" maxlength="16" placeholder="e.g. Rowan" required />
+            </label>
+            <label>
+              Coop ID
+              <input id="coopInput" maxlength="20" placeholder="e.g. sunny-hollow" required />
+            </label>
+            <button class="big-btn" type="submit" id="playBtn">Play</button>
+          </form>
+          <button class="link-btn" id="startHelpBtn" type="button">How to Play</button>
         </div>
-        <div class="start-ground" aria-hidden="true">🌾 🥕 🫐 🌾 🥕</div>
       </section>
 
       <!-- GAME SHELL -->
       <main class="game" id="gameScreen" hidden>
         <header class="header">
           <button class="round-btn" id="menuBtn" aria-label="Menu">⚙️</button>
-          <h2 class="header-title">Stardust Homestead</h2>
+          <h2 class="header-title" id="coopTitle">Village of Roots</h2>
           <button class="pill-btn" id="helpBtn">Help</button>
         </header>
 
-        <div class="banner" id="banner">
+        <div class="banner">
           <div class="banner-text">
             <span class="banner-label">What next?</span>
-            <span id="bannerText">⬇ Tap an empty plot to plant a seed</span>
+            <span id="hintText"></span>
+            <span class="banner-msg" id="msgText"></span>
           </div>
-          <div class="banner-coins">
-            <span id="coins">120</span> <span class="coin-icon">🪙</span>
-          </div>
+          <div class="banner-coins"><span id="coins">0</span> 🪙</div>
         </div>
 
-        <div class="stats">
-          <div class="stat">☀️ Day <span id="day">1</span></div>
-          <div class="stat">⚡ <span id="energy">10</span></div>
-          <div class="stat">🪵 <span id="wood">20</span></div>
-          <div class="stat">🪨 <span id="stone">12</span></div>
-          <div class="stat">⭐ <span id="rep">0</span></div>
-          <div class="stat">⚔️ <span id="weaponName">Bare hands</span></div>
-        </div>
+        <div class="stats" id="stats"></div>
 
-        <div class="content">
-          <!-- ACTIONS TAB -->
-          <section class="tab active" id="tab-actions">
-            <h3 class="title">Wilderness</h3>
-            <div class="tile-row">
-              <button class="tile" id="forageBtn">
-                <span class="tile-ico">🍎</span>
-                <span class="tile-label">Forage</span>
-                <small>Find food</small>
-              </button>
-              <button class="tile" id="gatherBtn">
-                <span class="tile-ico">🪓</span>
-                <span class="tile-label">Gather</span>
-                <small>Wood &amp; stone</small>
-              </button>
-            </div>
-            <div class="actions">
-              <button class="secondary" id="eatBtn">Eat Food (+2 ⚡)</button>
-            </div>
-
-            <h3 class="title spaced">Farm</h3>
-            <div class="farm-grid" id="farmGrid"></div>
-            <div class="actions">
-              <button id="nextDayBtn">Next Day</button>
-              <button id="waterBtn" class="secondary">Water All</button>
-              <button id="harvestBtn" class="secondary">Harvest Ready</button>
-              <button id="sellBtn" class="danger">Sell Harvest</button>
-            </div>
-            <div class="log" id="logPanel"></div>
-          </section>
-
-          <!-- INVENTORY TAB -->
-          <section class="tab" id="tab-inventory">
-            <h3 class="title">Inventory</h3>
-            <div class="section">
-              <strong>Bakery Goods</strong>
-              <div class="inventory" id="bakeryInventory"></div>
-            </div>
-            <div class="section">
-              <strong>Food Shelf</strong>
-              <div class="inventory" id="foodShelfInventory"></div>
-            </div>
-            <div class="section">
-              <strong>Pantry &amp; Magic</strong>
-              <div class="inventory" id="magicInventory"></div>
-            </div>
-          </section>
-
-          <!-- CRAFT TAB -->
-          <section class="tab" id="tab-craft">
-            <h3 class="title">Weapon Forge</h3>
-            <div class="card">
-              <div class="top">
-                <strong id="forgeNext">Wooden Club</strong>
-                <span id="forgeCost">10 🪵 + 5 🪨</span>
-              </div>
-              <button class="rare" id="forgeBtn">Craft Weapon</button>
-            </div>
-
-            <h3 class="title spaced">Bakery</h3>
-            <div class="small-grid">
-              <div class="card">
-                <div class="top">
-                  <strong>Ovens</strong>
-                  <span id="ovenCount">0</span>
-                </div>
-                <button data-role="buyOven">Buy Oven</button>
-              </div>
-              <div class="card">
-                <div class="top">
-                  <strong>Display Cases</strong>
-                  <span id="displayCount">0</span>
-                </div>
-                <button data-role="buyDisplay">Buy Display</button>
-              </div>
-            </div>
-            <div class="actions">
-              <button class="rare" id="bakeBreadBtn">Bake Bread</button>
-              <button id="sellBakeryBtn">Sell Bakery Goods</button>
-            </div>
-
-            <h3 class="title spaced">Restaurant</h3>
-            <div class="small-grid">
-              <div class="card">
-                <div class="top">
-                  <strong>Tables</strong>
-                  <span id="tableCount">0</span>
-                </div>
-                <button data-role="buyTable">Buy Table</button>
-              </div>
-              <div class="card">
-                <div class="top">
-                  <strong>Stoves</strong>
-                  <span id="stoveCount">0</span>
-                </div>
-                <button data-role="buyStove">Buy Stove</button>
-              </div>
-            </div>
-            <div class="actions">
-              <button id="serveMealsBtn">Serve Meals</button>
-            </div>
-          </section>
-
-          <!-- MAP TAB -->
-          <section class="tab" id="tab-map">
-            <h3 class="title">Village Goals</h3>
-            <div class="goal-list" id="goalsList"></div>
-
-            <h3 class="title spaced">Village Stores</h3>
-            <div class="market-list">
-              <div class="market-row">
-                <div><strong>Wheat Seed</strong><br /><small>8 coins</small></div>
-                <button data-role="buySeed" data-seed="wheat">Buy</button>
-              </div>
-              <div class="market-row">
-                <div><strong>Carrot Seed</strong><br /><small>10 coins</small></div>
-                <button data-role="buySeed" data-seed="carrot">Buy</button>
-              </div>
-              <div class="market-row">
-                <div><strong>Berry Seed</strong><br /><small>14 coins</small></div>
-                <button data-role="buySeed" data-seed="berry">Buy</button>
-              </div>
-              <div class="market-row">
-                <div><strong>Flour</strong><br /><small>8 coins</small></div>
-                <button data-role="buyFlour">Buy</button>
-              </div>
-              <div class="market-row">
-                <div><strong>Eggs</strong><br /><small>12 coins</small></div>
-                <button data-role="buyEggs">Buy</button>
-              </div>
-              <div class="market-row">
-                <div><strong>Magic Dust</strong><br /><small>20 coins</small></div>
-                <button data-role="buyMagicDust">Buy</button>
-              </div>
-            </div>
-          </section>
-
-          <!-- CAMP TAB -->
-          <section class="tab" id="tab-camp">
-            <h3 class="title">Magic</h3>
-            <div class="small-grid">
-              <div class="card">
-                <div class="top">
-                  <strong>Moonwell</strong>
-                  <span id="moonwellLevel">1</span>
-                </div>
-                <button data-role="upgradeMoonwell">Upgrade</button>
-              </div>
-              <div class="card">
-                <div class="top">
-                  <strong>Magic Lamps</strong>
-                  <span id="lampCount">0</span>
-                </div>
-                <button data-role="buyLamp">Buy Lamp</button>
-              </div>
-            </div>
-
-            <h3 class="title spaced">Money</h3>
-            <div class="small-grid">
-              <div class="card">
-                <div class="top">
-                  <strong>Stock Market</strong>
-                  <span id="stockLevel">1</span>
-                </div>
-                <button data-role="buyStockMarket">Upgrade</button>
-              </div>
-              <div class="card">
-                <div class="top">
-                  <strong>Bank</strong>
-                  <span id="bankLevel">1</span>
-                </div>
-                <button data-role="buyBank">Upgrade</button>
-              </div>
-            </div>
-            <div class="actions">
-              <button class="secondary" id="stockMarketTradeBtn">
-                Trade Shares
-              </button>
-            </div>
-            <div class="market-list" id="marketList"></div>
-          </section>
+        <div class="content" id="content">
+          <section class="tab active" id="tab-home"></section>
+          <section class="tab" id="tab-pack"></section>
+          <section class="tab" id="tab-craft"></section>
+          <section class="tab" id="tab-market"></section>
+          <section class="tab" id="tab-coop"></section>
         </div>
 
         <nav class="tabbar" id="tabbar">
-          <button class="tab-btn active" data-tab="actions">
-            <span class="ico">🌱</span><span>Actions</span>
+          <button class="tab-btn active" data-tab="home">
+            <span class="ico">🌱</span><span>Homestead</span>
           </button>
-          <button class="tab-btn" data-tab="inventory">
-            <span class="ico">🎒</span><span>Inventory</span>
+          <button class="tab-btn" data-tab="pack">
+            <span class="ico">🎒</span><span>Pack</span>
           </button>
           <button class="tab-btn" data-tab="craft">
-            <span class="ico">🍞</span><span>Craft</span>
+            <span class="ico">🍳</span><span>Craft</span>
           </button>
-          <button class="tab-btn" data-tab="map">
-            <span class="ico">🗺️</span><span>Map</span>
+          <button class="tab-btn" data-tab="market">
+            <span class="ico">🛒</span><span>Market</span>
           </button>
-          <button class="tab-btn" data-tab="camp">
-            <span class="ico">✨</span><span>Camp</span>
+          <button class="tab-btn" data-tab="coop">
+            <span class="ico">🏘️</span><span>Coop</span>
           </button>
         </nav>
       </main>
@@ -259,9 +82,9 @@
       <!-- HELP / MENU MODAL -->
       <div class="modal" id="modal" hidden>
         <div class="modal-card">
-          <h3 id="modalTitle">How to Play</h3>
+          <h3 id="modalTitle"></h3>
           <div id="modalBody"></div>
-          <button class="big-btn small" id="modalClose">Got it</button>
+          <button class="big-btn small" id="modalClose">Close</button>
         </div>
       </div>
     </div>
